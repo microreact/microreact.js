@@ -1,8 +1,7 @@
-import axios from "axios";
-import request from "request";
-import ftp from "ftp-get";
-import JSFtp from "jsftp";
-import validUrl from "valid-url";
+const request = require("request");
+const ftp = require("ftp-get");
+const JSFtp = require("jsftp");
+const validUrl = require("valid-url");
 
 function parseAuth(authInput) {
   if (authInput) {
