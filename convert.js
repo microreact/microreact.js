@@ -139,8 +139,8 @@ module.exports = function (originalDoc) {
   //#endregion
 
   //#region Add a map if the data file includes default LATITUDE and LONGITUDE columns
-  const latitudeField = fields.find((x) => /(__LATITUDE$)|(^LATITUDE$)/i.test(x));
-  const longitudeField = fields.find((x) => /(__LONGITUDE$)|(^LONGITUDE$)/i.test(x));
+  const latitudeField = fields.find((x) => (x === doc?.settings?.map_latitude) || /(__LATITUDE$)|(^LATITUDE$)/i.test(x));
+  const longitudeField = fields.find((x) => (x === doc?.settings?.map_longitude) || /(__LONGITUDE$)|(^LONGITUDE$)/i.test(x));
   if (latitudeField && longitudeField) {
     doc.maps["map-1"] = {
       title: "Map",
@@ -249,35 +249,45 @@ module.exports = function (originalDoc) {
 
   //#region Add a timeline if data include YEAR, MONTH, and DAY columns
   {
-    const yearField = fields.find((x) => /(__year$)|(^year$)/i.test(x));
-    const monthField = fields.find((x) => /(__month$)|(^month$)/i.test(x));
-    const dayField = fields.find((x) => /(__day$)|(^day$)/i.test(x));
-    if (yearField) {
+    const timelineField = fields.find((x) => x === doc?.settings?.timeline_field);
+    if (timelineField) {
       doc.timelines["timeline-1"] = {
         title: "Timeline",
-        dataType: "year-month-day",
-        yearField,
-        monthField: monthField || undefined,
-        dayField: dayField || undefined,
+        dataType: "formatted-value",
+        valueField: timelineField,
       };
-      if (originalDoc.savedState && originalDoc.savedState.timeline) {
-        const {
-          // bounds,
+    }
+    else {
+      const yearField = fields.find((x) => /(__year$)|(^year$)/i.test(x));
+      const monthField = fields.find((x) => /(__month$)|(^month$)/i.test(x));
+      const dayField = fields.find((x) => /(__day$)|(^day$)/i.test(x));
+      if (yearField) {
+        doc.timelines["timeline-1"] = {
+          title: "Timeline",
+          dataType: "year-month-day",
+          yearField,
+          monthField: monthField || undefined,
+          dayField: dayField || undefined,
+        };
+      }
+    }
+    if (doc.timelines["timeline-1"] && originalDoc.savedState && originalDoc.savedState.timeline) {
+      const {
+        // bounds,
+        nodeSize,
+        playing,
+        speed,
+        // unit,
+      } = originalDoc.savedState.timeline;
+      Object.assign(
+        doc.timelines["timeline-1"],
+        {
           nodeSize,
           playing,
           speed,
-          // unit,
-        } = originalDoc.savedState.timeline;
-        Object.assign(
-          doc.timelines["timeline-1"],
-          {
-            nodeSize,
-            playing,
-            speed,
-            unit: null, // set unit to auto
-          },
-        );
-      }
+          unit: null, // set unit to auto
+        },
+      );
     }
   }
   //#endregion
