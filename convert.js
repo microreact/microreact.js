@@ -237,12 +237,14 @@ module.exports = function (originalDoc) {
       );
     }
     if (originalDoc?.savedState?.tree?.phylocanvas) {
-      const { phylocanvas } = originalDoc.savedState.tree;
-      doc.trees["tree-1"].nodeSize = phylocanvas.nodeSize;
-      doc.trees["tree-1"].type = phylocanvas.type;
-      doc.trees["tree-1"].blockSize = phylocanvas.blockLength;
-      doc.trees["tree-1"].showLeafLabels = phylocanvas.showLeafLabels;
-      // doc.trees["tree-1"].showShapeBorders = phylocanvas.showShapeBorders;
+      const treeSavedState = originalDoc.savedState.tree;
+      doc.trees["tree-1"].nodeSize = treeSavedState.phylocanvas.nodeSize;
+      doc.trees["tree-1"].type = treeSavedState.phylocanvas.type;
+      doc.trees["tree-1"].blockSize = treeSavedState.phylocanvas.blockLength;
+      doc.trees["tree-1"].showLeafLabels = treeSavedState.phylocanvas.showLeafLabels;
+      // doc.trees["tree-1"].showShapeBorders = treeSavedState.phylocanvas.showShapeBorders;
+      doc.trees["tree-1"].rootId = treeSavedState.phylocanvas.rootId;
+      doc.trees["tree-1"].ids = treeSavedState.ids || treeSavedState.subtreeIds;
     }
   }
   // #endregion
