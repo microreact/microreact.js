@@ -251,7 +251,7 @@ module.exports = function (originalDoc) {
 
   //#region Add a timeline if data include YEAR, MONTH, and DAY columns
   {
-    const timelineField = fields.find((x) => x === doc?.settings?.timeline_field);
+    const timelineField = fields.find((x) => x === originalDoc?.settings?.timeline_field);
     if (timelineField) {
       doc.timelines["timeline-1"] = {
         title: "Timeline",
