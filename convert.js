@@ -76,7 +76,7 @@ module.exports = function (originalDoc) {
   for (const item of fields) {
     if (item) {
       fieldNameMap.set(item, item);
-      fieldNameMap.set(item.toLowerCase(), item);
+      fieldNameMap.set(item.toLowerCase && item.toLowerCase(), item);
     }
   }
 
@@ -100,7 +100,7 @@ module.exports = function (originalDoc) {
     file: "data-file-1",
     title: "Metadata",
     columns: fields
-      .filter((x) => !x.match(/(.+)__(color|colour|shape|pattern|url)$/i))
+      .filter((x) => x.match && !x.match(/(.+)__(color|colour|shape|pattern|url)$/i))
       .map((field) => ({ field })),
   };
 
