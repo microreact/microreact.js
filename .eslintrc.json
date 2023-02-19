@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "cgps"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+  }
+}
