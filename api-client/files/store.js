@@ -6,5 +6,8 @@ export function store(apiUrl, accessToken, fileInput) {
     baseURL: apiUrl,
     url: "/files/store/",
     data: fileInput,
+    headers: {
+      "access-token": accessToken,
+    },
   });
 }
