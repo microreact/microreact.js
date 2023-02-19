@@ -1,4 +1,4 @@
-import apiRequest from '../api-request';
+import apiRequest from "../api-request";
 
 export function storeFile(apiUrl, fileInput) {
   return apiRequest({
