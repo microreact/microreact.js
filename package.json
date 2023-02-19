@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git@gitlab.com:cgps/data-flo/microreact.js.git"
   },
+  "type": "module",
   "author": "",
   "license": "MIT",
   "dependencies": {
