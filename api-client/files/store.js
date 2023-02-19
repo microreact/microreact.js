@@ -1,6 +1,6 @@
 import apiRequest from "../api-request";
 
-export function storeFile(apiUrl, fileInput) {
+export function store(apiUrl, accessToken, fileInput) {
   return apiRequest({
     method: "post",
     baseURL: apiUrl,
