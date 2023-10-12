@@ -1,27 +1,24 @@
 const Papaparse = require("papaparse");
 
 function parseCsvHeaderRow(input) {
-  let headerRow;
-
-  Papaparse.parse(
-    input,
-    {
-      download: false,
-      dynamicTyping: true,
-      step: (results, parser) => {
-        parser.abort();
-        const row = results.data;
-        // Test the row
-        headerRow = row;
+  return new Promise((resolve) => {
+    Papaparse.parse(
+      input,
+      {
+        download: false,
+        dynamicTyping: true,
+        step: (results, parser) => {
+          parser.abort();
+          const row = results.data;
+          resolve(
+            row
+              .filter(Boolean)
+              .map((x) => (x.trim ? x.trim() : x))
+          );
+        },
       },
-    },
-  );
-
-  return (
-    headerRow
-      .filter(Boolean)
-      .map((x) => (x.trim ? x.trim() : x))
-  );
+    );
+  })
 }
 
 function createFileDescriptor(id, format, name, data, url) {
@@ -41,7 +38,7 @@ function createFileDescriptor(id, format, name, data, url) {
   return file;
 }
 
-module.exports = function (originalDoc) {
+module.exports = async function (originalDoc) {
   const doc = {
     charts: {},
     datasets: {},
@@ -69,7 +66,7 @@ module.exports = function (originalDoc) {
   //#endregion
 
   // #region Convert datasets
-  const fields = parseCsvHeaderRow(originalDoc.dataFile);
+  const fields = await parseCsvHeaderRow(originalDoc.dataFile);
 
   const fieldNameMap = new Map();
   // const fields = [];
