@@ -11,16 +11,24 @@ module.exports = async function ({
   data,
   tree,
   network,
+  dataStream,
 }) {
   const isDataUrl = isValidUrl(data);
   const dataUrl = isDataUrl ? data : undefined;
-  const dataFile = await (
-    isDataUrl
-      ?
-      getUrl(data)
-      :
-      data
-  );
+
+  let dataFile;
+  if (dataStream) {
+    dataFile = dataStream
+  }
+  else {
+    dataFile= await (
+      isDataUrl
+        ?
+        getUrl(data)
+        :
+        data
+    );
+  }
 
   const isTreeUrl = isValidUrl(tree);
   const treeUrl = isTreeUrl ? tree : undefined;
@@ -44,6 +52,6 @@ module.exports = async function ({
     networkFile,
     networkUrl,
   };
-  const json = schemaConvertor(doc);
+  const json = await schemaConvertor(doc);
   return json;
 };
