@@ -18,10 +18,10 @@ module.exports = async function ({
 
   let dataFile;
   if (dataStream) {
-    dataFile = dataStream
+    dataFile = dataStream;
   }
   else {
-    dataFile= await (
+    dataFile = await (
       isDataUrl
         ?
         getUrl(data)
