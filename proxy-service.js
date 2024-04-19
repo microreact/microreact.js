@@ -144,5 +144,5 @@ module.exports.getUrl = function(url) {
 
 
 module.exports.isValidUrl = function(url) {
-  return validUrl.isUri(url);
+  return url?.startsWith("/api/files/raw?") || validUrl.isUri(url);
 }
